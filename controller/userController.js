@@ -2,7 +2,7 @@ import { StatusCodes } from "http-status-codes";
 import User from "../model/userModel.js";
 import Job from "../model/jobModel.js";
 import cloudinary from 'cloudinary';
-import { promises as fs } from "fs";
+import {promises as fs} from 'fs';
 
 export const getCurrentUser= async (req, res) => {
 
@@ -34,8 +34,6 @@ export const  updateUser = async(req, res) => {
     
             newUser.avatar =  response.secure_url
             newUser.avatarPublicId =  response.public_id
-         
-    
         }
         const updateUser = await User.findByIdAndUpdate(req.user.userId,newUser);
     
@@ -46,6 +44,7 @@ export const  updateUser = async(req, res) => {
     
         res.json({ msg: 'Update user' });
     } catch (error) {
+        console.log(error);
         res.status(300).json({ message: error.message });
     }
 }
