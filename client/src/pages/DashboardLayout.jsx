@@ -1,6 +1,12 @@
-import {  Outlet, redirect, useLoaderData ,useNavigate} from "react-router-dom";
+import {
+  Outlet,
+  redirect,
+  useLoaderData,
+  useNavigate,
+  useNavigation,
+} from "react-router-dom";
 import Wrapper from "../assets/wrappers/Dashboard";
-import { BigSidebar, SmallSidebar, Navbar } from "../components";
+import { BigSidebar, SmallSidebar, Navbar, Loading } from "../components";
 import { createContext, useContext, useState } from "react";
 import { checkDeafaultTheme } from "../App";
 import customFetch from "../utils/customFetch";
@@ -9,28 +15,23 @@ import { toast } from "react-toastify";
 const DashboardContext = createContext();
 
 export const loader = async () => {
-
-  try{
-
-    const {data} = await customFetch.get('/users/current-user');
+  try {
+    const { data } = await customFetch.get("/users/current-user");
 
     return data;
-  }catch(error){
-
-    return redirect('/');
+  } catch (error) {
+    return redirect("/");
   }
 };
 
-
-
 const DashboardLayout = () => {
+  const { user } = useLoaderData();
 
-  const { user }  = useLoaderData();
+  const navigate = useNavigate();
 
+  const navigation = useNavigation();
 
-
-    const navigate = useNavigate();
-    
+  const isPageLoading = navigation.state === "loading";
 
   const [showSidebar, setSideBar] = useState(false);
   const [isDarkTheme, setIsDarkTheme] = useState(checkDeafaultTheme());
@@ -47,14 +48,10 @@ const DashboardLayout = () => {
   };
 
   const logoutUser = async () => {
-  
-
-      navigate('/');
-      await customFetch.get("/auth/logout");
-      toast.success("Logout successfully");
-    
+    navigate("/");
+    await customFetch.get("/auth/logout");
+    toast.success("Logout successfully");
   };
-
 
   return (
     <DashboardContext.Provider
@@ -75,7 +72,7 @@ const DashboardLayout = () => {
             <Navbar />
 
             <div className="dashboard-page">
-              <Outlet context={{user}} />
+              {isPageLoading ? <Loading /> : <Outlet context={{ user }} />}
             </div>
           </div>
         </main>
