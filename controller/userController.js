@@ -29,7 +29,7 @@ export const  updateUser = async(req, res) => {
         delete newUser.password;
     
         if(req.file){
-            const response = await cloudinary.uploader.upload(req.file.path);
+            const response = await cloudinary.uploader.upload(file);
             await fs.unlink(req.file.path);
     
             newUser.avatar =  response.secure_url
