@@ -5856,6 +5856,8 @@ const JobsContainer = () => {
     );
   }
 
+  console.log(numOfPages);
+
   return (
     <Wrapper>
       <h5>

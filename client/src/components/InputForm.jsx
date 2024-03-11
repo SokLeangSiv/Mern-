@@ -1,5 +1,5 @@
 // eslint-disable-next-line react/prop-types
-const InputForm = ({ name,labelText,defaultValue,type }) => {
+const InputForm = ({ name,labelText,defaultValue,type, onChange }) => {
   return (
     <div className="form-row">
       <label htmlFor={name} className="form-label">
@@ -10,6 +10,7 @@ const InputForm = ({ name,labelText,defaultValue,type }) => {
         id={name}
         name={name}
         className="form-input"
+        onChange={onChange}
         defaultValue={defaultValue}
         required
       />
